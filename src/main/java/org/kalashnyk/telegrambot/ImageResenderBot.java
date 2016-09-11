@@ -1,5 +1,7 @@
 package org.kalashnyk.telegrambot;
 
+import org.telegram.telegrambots.TelegramApiException;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.PhotoSize;
@@ -25,6 +27,15 @@ public class ImageResenderBot extends TelegramLongPollingBot {
             try {
                 sendPhoto(sendPhotoRequest);
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            SendMessage sendMessageRequest = new SendMessage();
+            sendMessageRequest.setChatId(message.getChatId().toString());
+            sendMessageRequest.setText("Send me an image, please!");
+            try {
+                sendMessage(sendMessageRequest);
+            } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
